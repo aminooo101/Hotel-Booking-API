@@ -21,7 +21,7 @@ def get_available_rooms(
 
     available_rooms = db.query(models.Room).filter(
         ~models.Room.id.in_(occupied_room_ids)
-        models.Room.is.active == True
+        models.Room.is_active == True
     ).all()
     return available_rooms
 
