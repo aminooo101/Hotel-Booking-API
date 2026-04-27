@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException # Added APIRouter
+from datetime import date
 from sqlalchemy.orm import Session
 import models
 from database import get_db
@@ -11,8 +12,8 @@ router = APIRouter(prefix="/bookings", tags=["bookings"])
 # 2. Add the decorator @router.get
 @router.get("/available")
 def get_available_rooms(
-    check_in: str,
-    check_out: str,
+    check_in: date,
+    check_out: date,
     db: Session = Depends(get_db),
     current_user = Depends(get_current_user) 
 ):
