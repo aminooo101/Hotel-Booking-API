@@ -35,8 +35,6 @@ def get_room(room_id: int, db: Session = Depends(get_db)):
     if not room:
         raise HTTPException(status_code=404, detail="Room not found")
     return room
-   
-    pass
 
 # 4. MODIFICAR — precio, tipo, estado
 @router.put("/{room_id}", response_model=schemas.RoomResponse)
@@ -45,6 +43,7 @@ def update_room(room_id: int, room: schemas.RoomCreate, db: Session = Depends(ge
     db_room = db.query(models.Room).filter(models.Room.id == room_id).first()
     if not db_room:
         raise HTTPException(status_code=404, detail="Room not found")
+    db_room.number = room.number
     db_room.price = room.price
     db_room.type = room.type
     db.commit()
@@ -60,4 +59,3 @@ def delete_room(room_id: int, db: Session = Depends(get_db)):
     db.delete(db_room)
     db.commit()
     return None
-
