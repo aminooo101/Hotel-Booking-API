@@ -16,23 +16,17 @@ def get_available_rooms(
     db: Session = Depends(get_db),
     current_user = Depends(get_current_user) 
 ):
-    # Find IDs of rooms that have overlapping bookings
-    occupied = db.query(models.Booking.room_id).filter(
+    # Create a subquery for IDs of rooms that have overlapping confirmed bookings
+    occupied_subquery = db.query(models.Booking.room_id).filter(
         models.Booking.status == "confirmed",
         models.Booking.check_in < check_out,
         models.Booking.check_out > check_in
+    )
+
+    # Fetch rooms that are active and not in the occupied subquery
+    available_rooms = db.query(models.Room).filter(
+        models.Room.is_active == True,
+        ~models.Room.id.in_(occupied_subquery)
     ).all()
-
-    occupied_room_ids = [room_id for (room_id,) in occupied]
-
-    if not occupied_room_ids:
-        # If no rooms are occupied, just return all active rooms
-        available_rooms = db.query(models.Room).filter(models.Room.is_active == True).all()
-    else:
-        # Otherwise, filter out the occupied ones
-        available_rooms = db.query(models.Room).filter(
-            ~models.Room.id.in_(occupied_room_ids),
-            models.Room.is_active == True
-        ).all()
 
     return available_rooms
