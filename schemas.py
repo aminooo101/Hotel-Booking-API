@@ -5,13 +5,13 @@ from typing import Optional
 
 
 class UserCreate(BaseModel):
-    email: EmailStr
+    email: str
     password: str
     role: Optional[str] = "guest"
     
 class UserResponse(BaseModel):
     id: int
-    email: EmailStr
+    email: str
     role: str
 
     class Config:

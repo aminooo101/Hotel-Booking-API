@@ -38,3 +38,5 @@ class Booking(Base):
     total_price = Column(Float)
     user = relationship("User", back_populates="bookings")
     room = relationship("Room", back_populates="bookings")
+
+
