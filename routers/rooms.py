@@ -17,7 +17,11 @@ def get_all_rooms(db: Session = Depends(get_db)):
 
 # 2. CREAR — solo admin
 @router.post("/", response_model=schemas.RoomResponse, status_code=201)
-def create_room(room: schemas.RoomCreate, db: Session = Depends(get_db)):
+def create_room(
+    room: schemas.RoomCreate, 
+    db: Session = Depends(get_db), 
+    current_user = Depends(require_admin)
+):
     # - crear objeto models.Room con los datos de room
     new_room = models.Room(number=room.number,price=room.price,type=room.type)
     # - añadir a la BD
@@ -38,7 +42,12 @@ def get_room(room_id: int, db: Session = Depends(get_db)):
 
 # 4. MODIFICAR — precio, tipo, estado
 @router.put("/{room_id}", response_model=schemas.RoomResponse)
-def update_room(room_id: int, room: schemas.RoomCreate, db: Session = Depends(get_db)):
+def update_room(
+    room_id: int, 
+    room: schemas.RoomCreate, 
+    db: Session = Depends(get_db),
+    current_user = Depends(require_admin)
+):
     # pista: primero busca la habitación, luego modifica sus campos
     db_room = db.query(models.Room).filter(models.Room.id == room_id).first()
     if not db_room:
@@ -52,7 +61,11 @@ def update_room(room_id: int, room: schemas.RoomCreate, db: Session = Depends(ge
 
 
 @router.delete("/{room_id}", status_code=204)
-def delete_room(room_id: int, db: Session = Depends(get_db)):
+def delete_room(
+    room_id: int, 
+    db: Session = Depends(get_db),
+    current_user = Depends(require_admin)
+):
     db_room = db.query(models.Room).filter(models.Room.id == room_id).first()
     if not db_room:
         raise HTTPException(status_code=404, detail="Room not found")

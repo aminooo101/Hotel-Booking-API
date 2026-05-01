@@ -41,7 +41,6 @@ class RoomResponse(BaseModel):
         from_attributes = True
 
 class BookingCreate(BaseModel):
-    user_id: int
     room_id: int
     check_in: date
     check_out: date 
