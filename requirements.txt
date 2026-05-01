@@ -135,7 +135,6 @@ PyJWT==2.7.0
 pylint==4.0.5
 pymongo==4.16.0
 pyparsing==3.3.2
-python-apt==2.7.7+ubuntu5.2
 python-dateutil==2.9.0.post0
 python-discovery==1.2.1
 python-dotenv==1.2.2
