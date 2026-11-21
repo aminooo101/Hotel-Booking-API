@@ -42,6 +42,6 @@ jobs:
     - name: Run Tests with pytest
       env:
         DATABASE_URL: postgresql://postgres:password@localhost:5432/hotel_db_test
-        JWT_SECRET: test_secret_key_12345
+        SECRET_KEY: test_secret_key_12345
       run: |
         pytest test_main.py -v
