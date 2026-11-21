@@ -1,46 +1,73 @@
-# 🏨 Hotel Booking API
+# Hotel Booking API
 
-Una API RESTful robusta y eficiente para la gestión de reservas de hotel, desarrollada con **FastAPI**, **SQLAlchemy** y **SQLite/PostgreSQL**. Incluye autenticación mediante JWT, validación de datos con Pydantic y un pipeline de Integración Continua (CI) con GitHub Actions.
+A RESTful API for managing hotel rooms and bookings, built with FastAPI, SQLAlchemy, and Pydantic. Includes JWT authentication, date validation, automated tests, Docker support, and a GitHub Actions CI pipeline.
 
----
+## Features
 
-## 🚀 Características
+- User registration and login with bcrypt-hashed passwords
+- JWT-based authentication and authorization
+- Room management (create, list)
+- Booking creation with date conflict and past-date validation
+- SQLite for local development (PostgreSQL-ready)
+- Full test suite with pytest and httpx
+- Docker support and GitHub Actions CI
 
-* **Gestión de Usuarios:** Registro e inicio de sesión de usuarios con contraseñas cifradas con `bcrypt`.
-* **Seguridad:** Autenticación y autorización basada en tokens **JWT**.
-* **Habitaciones:** Creación, visualización y gestión de habitaciones disponibles.
-* **Reservas:** Creación de reservas con validaciones de fechas (evita reservas en fechas pasadas y conflictos de disponibilidad).
-* **Base de Datos Flexible:** Configurada para funcionar con SQLite (desarrollo) o PostgreSQL (producción).
-* **Tests Automatizados:** Cobertura completa de endpoints mediante `pytest` y `httpx`.
+## Tech Stack
 
----
+- FastAPI
+- SQLAlchemy + Pydantic v2
+- PyJWT + Passlib (bcrypt)
+- pytest + httpx
+- Docker
 
-## 🛠️ Tecnologías utilizadas
+## Project Structure
 
-* **Framework:** FastAPI
-* **ORM:** SQLAlchemy
-* **Base de Datos:** SQLite / PostgreSQL
-* **Validación de Datos:** Pydantic v2
-* **Seguridad:** PyJWT, Passlib (Bcrypt)
-* **Testing:** Pytest & HTTPX
-* **Despliegue:** Docker & Render
-
----
-
-## 📂 Estructura del Proyecto
-
-```text
+```
 Hotel-Booking-API/
-├── .github/workflows/
-│   └── ci.yml               # Pipeline de GitHub Actions
-├── main.py                  # Punto de entrada de la aplicación FastAPI
-├── database.py              # Configuración de SQLAlchemy
-├── models.py                # Modelos de la base de datos
-├── schemas.py               # Esqueletos y validaciones de Pydantic
-├── crud.py                  # Operaciones de base de datos
-├── Dockerfile               # Configuración de Docker para el deploy
-├── requirements.txt         # Dependencias del proyecto
-├── test_main.py             # Tests unitarios y de integración
-└── README.md                # Documentación del proyecto
+├── .github/workflows/ci.yml    # GitHub Actions CI
+├── main.py                     # FastAPI entry point
+├── database.py                 # SQLAlchemy setup
+├── models.py                   # Database models
+├── schemas.py                  # Pydantic schemas
+├── crud.py                     # Database operations
+├── Dockerfile                  # Docker configuration
+├── requirements.txt            # Dependencies
+├── test_main.py                # Automated tests
+└── README.md
+```
 
+## Installation & Run
 
+```bash
+git clone https://github.com/aminooo101/Hotel-Booking-API
+cd Hotel-Booking-API
+python -m venv venv
+source venv/bin/activate        # Linux/Mac
+# venv\Scripts\activate      # Windows
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
+
+Open http://localhost:8000/docs for the interactive Swagger UI.
+
+## How to Run the Tests
+
+The project includes a full test suite covering registration, login, room creation, booking creation, date validation, availability conflicts, and cancellation.
+
+```bash
+# Make sure you are in the project root with the virtual environment activated
+pytest test_main.py -v
+```
+
+Expected result: all tests pass (currently 10 tests covering the main endpoints and edge cases).
+
+## Docker
+
+```bash
+docker build -t hotel-api .
+docker run -p 8000:8000 hotel-api
+```
+
+## Author
+
+Amin Hadian · [github.com/aminooo101](https://github.com/aminooo101) · [linkedin.com/in/amin-hadian-841277204](https://www.linkedin.com/in/amin-hadian-841277204)
